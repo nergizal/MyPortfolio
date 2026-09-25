@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #f4f1ea;
+  --foreground: #16141c;
+  --muted: #ece7dc;
+  --muted-foreground: #5c5868;
+  --card: rgba(255, 252, 246, 0.72);
+  --border: rgba(22, 20, 28, 0.1);
+  --accent: #7c3aed;
+  --accent-2: #0891b2;
+  --ring: #7c3aed;
+  --glow: rgba(124, 58, 237, 0.28);
+}
+
+.dark {
+  --background: #050508;
+  --foreground: #f4f1ea;
+  --muted: #12121a;
+  --muted-foreground: #a8a3b5;
+  --card: rgba(16, 16, 24, 0.62);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #8b5cf6;
+  --accent-2: #22d3ee;
+  --ring: #22d3ee;
+  --glow: rgba(139, 92, 246, 0.38);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space);
+  --font-mono: var(--font-geist-mono);
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 70%, transparent);
+  color: white;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-space), var(--font-inter), sans-serif;
+}
+
+.gradient-text {
+  background-image: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aurora {
+  background:
+    radial-gradient(ellipse 80% 55% at 18% -8%, color-mix(in oklab, var(--accent) 42%, transparent), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 86% 0%, color-mix(in oklab, var(--accent-2) 32%, transparent), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 12%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 45%);
+  filter: saturate(1.15);
+  animation: aurora-shift 18s ease-in-out infinite;
+}
+
+@keyframes aurora-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(2%, 4%, 0) scale(1.06);
+    opacity: 0.9;
+  }
+}
+
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .grain {
+    display: none;
+  }
+}
