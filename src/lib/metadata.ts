@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { site } from "@/data/site";
 
+// site.url boşsa Vercel domainini veya localhost'u güvenli URL olarak belirle
+const defaultUrl = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}` 
+  : "http://localhost:3000";
+
+const safeUrl = site.url || defaultUrl;
+
 export const siteMetadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(safeUrl),
   title: {
     default: `${site.name} — ${site.title}`,
     template: `%s — ${site.name}`,
@@ -17,12 +24,12 @@ export const siteMetadata: Metadata = {
     "Istanbul",
     "junior software engineer",
   ],
-  authors: [{ name: site.name, url: site.url }],
+  authors: [{ name: site.name, url: safeUrl }],
   creator: site.name,
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: site.url,
+    url: safeUrl,
     siteName: site.name,
     title: `${site.name} — Full-Stack Mobile Developer`,
     description: site.pitch,
@@ -37,6 +44,6 @@ export const siteMetadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: site.url,
+    canonical: safeUrl,
   },
 };
